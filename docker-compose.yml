@@ -1,0 +1,69 @@
+version: '3.8'
+
+# Services
+services:
+
+  # Nginx Service
+  nginx:
+    image: nginx:1.19-alpine
+    ports:
+      - 80:80
+    volumes:
+      - ./src/backend:/var/www/backend
+      - ./.docker/nginx/conf.d:/etc/nginx/conf.d
+      - phpmyadmindata:/var/www/phpmyadmin
+    depends_on:
+      - backend
+      - phpmyadmin
+      - frontend
+
+  # Backend Service
+  backend:
+    build: ./src/backend
+    working_dir: /var/www/backend
+    volumes:
+      - ./src/backend:/var/www/backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+  
+  # Frontend Service
+  frontend:
+    build: ./src/frontend
+    working_dir: /var/www/frontend
+    volumes:
+      - ./src/frontend:/var/www/frontend
+    depends_on:
+      - backend
+
+  # MySQL Service
+  mysql:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: manut
+    volumes:
+      - ./.docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u root --password=$$MYSQL_ROOT_PASSWORD
+      interval: 5s
+      retries: 10
+
+  # PhpMyAdmin Service
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5-fpm-alpine
+    environment:
+      PMA_HOST: mysql
+    volumes:
+      - phpmyadmindata:/var/www/html
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+# Volumes
+volumes:
+
+  mysqldata:
+
+  phpmyadmindata:
