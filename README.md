@@ -90,3 +90,8 @@ To remove everything, including images and orphan containers:
 ```
 $ docker compose down -v --rmi all --remove-orphans
 ```
+
+To permission directorie em Linux
+...
+sudo chown -R "${USER:-$(id -un)}" .
+...
