@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreUpdateCompany;
 use App\Models\Company;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
@@ -30,11 +30,10 @@ class CompanyController extends Controller
         return view('admin.pages.companies.create');
     }
 
-    public function store(Request $request)
+    public function store(StoreUpdateCompany $request)
     {
-        $data = $request->all();
-        $data['url_company'] = Str::kebab($request->name_company);
-        $this->repository->create($data);
+        $this->repository->create($request->all());
+
         return redirect()->route('companies.index');
     }
 
@@ -73,6 +72,32 @@ class CompanyController extends Controller
             'companies' => $companies,
             'filters'   => $filters,
         ]);
+    }
+
+    public function edit($url_company)
+    {
+        $company = $this->repository->where('url_company', $url_company)->first();
+
+        if (!$company) {
+            return redirect()->back();
+        }
+
+        return view('admin.pages.companies.edit', [
+            'company' => $company
+        ]);
+    }
+
+    public function update(StoreUpdateCompany $request, $url_company)
+    {
+        $company = $this->repository->where('url_company', $url_company)->first();
+
+        if (!$company) {
+            return redirect()->back();
+        }
+
+        $company->update($request->all());
+
+        return redirect()->route('companies.index');
     }
 
 }

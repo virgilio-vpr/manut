@@ -2,14 +2,35 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::any('admin/companies/search', 'Admin\CompanyController@search')->name('companies.search');
-Route::get('admin/companies/create', 'Admin\CompanyController@create')->name('companies.create');
-Route::delete('admin/companies/{url_company}', 'Admin\CompanyController@destroy')->name('companies.destroy');
-Route::get('admin/companies/{url_company}', 'Admin\CompanyController@show')->name('companies.show');
-Route::post('admin/companies', 'Admin\CompanyController@store')->name('companies.store');
-Route::get('admin/companies', 'Admin\CompanyController@index')->name('companies.index');
+Route::prefix('admin')
+        ->namespace('Admin')
+        ->group(function(){
 
-Route::get('admin', 'Admin\CompanyController@index')->name('admin.index');
+    // ===================================  Routes Directions ===============================================
+    Route::get('companies/{url_company}/directions/create', 'DirectionController@create')->name('directions.company.create');
+    Route::put('companies/{url_company}/directions/{companyId}/{idDirection}', 'DirectionController@update')->name('directions.company.update');
+    Route::get('companies/{url_company}/directions/{idDirection}/edit', 'DirectionController@edit')->name('directions.company.edit');
+    Route::any('companies/{url_company}/search', 'DirectionController@search')->name('directions.company.search');
+    Route::delete('companies/{url_company}/directions/{idDirection}', 'DirectionController@destroy')->name('directions.company.destroy');
+    Route::get('companies/{url_company}/directions/{idDirection}', 'DirectionController@show')->name('directions.company.show');
+    Route::post('companies/{url_company}/directions/{companyId}', 'DirectionController@store')->name('directions.company.store');
+    Route::get('companies/{url_company}/directions', 'DirectionController@index')->name('directions.company.index');
+
+    // ===================================  Routes Companies ================================================
+    Route::get('companies/create', 'CompanyController@create')->name('companies.create');
+    Route::put('companies/{url_company}', 'CompanyController@update')->name('companies.update');
+    Route::get('companies/{url_company}/edit', 'CompanyController@edit')->name('companies.edit');
+    Route::any('companies/search', 'CompanyController@search')->name('companies.search');
+    Route::delete('companies/{url_company}', 'CompanyController@destroy')->name('companies.destroy');
+    Route::get('companies/{url_company}', 'CompanyController@show')->name('companies.show');
+    Route::post('companies', 'CompanyController@store')->name('companies.store');
+    Route::get('companies', 'CompanyController@index')->name('companies.index');
+
+    Route::get('/', 'HomeController@home')->name('admin.home');
+
+});
+
+
 
 
 Route::get('/', function () {

@@ -91,7 +91,7 @@ To remove everything, including images and orphan containers:
 $ docker compose down -v --rmi all --remove-orphans
 ```
 
-To permission directorie em Linux
+To permission directorie em Linux for Virgilio
 ...
 sudo chown -R "${USER:-$(id -un)}" .
 ...

@@ -3,37 +3,47 @@
 @section('title', "Detalhes da Empresa {$company->name_company}")
 
 @section('content_header')
-    <h1>Detalhes da Empresa <b>{{ $company->name_company }}</b></h1>
+    <div class="col">
+        <div class="row">
+            <h1>Detalhes da Empresa <b>{{ $company->name_company }}</b>&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+            <a href="{{ route('companies.index') }}" class="btn btn-secondary"><i class="fas fa-undo"></i></a>
+        </div>
+    </div>
+
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <ul>
-                <li>
+
+            <ul class="list-group list-group-flush">
+
+                <li class="list-group-item">
                     <strong>Nome da Empresa: </strong> {{ $company->name_company }}
                 </li>
-            </ul>
-            <ul>
-                <li>
+
+                <li class="list-group-item">
                     <strong>URL da Empresa: </strong> {{ $company->url_company }}
                 </li>
-            </ul>
-            <ul>
-                <li>
+
+                <li class="list-group-item">
                     <strong>Logo da Empresa: </strong> {{ $company->logo_company }}
                 </li>
-            </ul>
-            <ul>
-                <li>
+
+                <li class="list-group-item">
                     <strong>Descrição: </strong> {{ $company->description }}
                 </li>
+
             </ul>
+
+            <br>
+
             <form action="{{ route('companies.destroy', $company->url_company) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> DELETAR A EMPRESA {{ $company->name_company }} </button>
+                <button type="submit" class="btn btn-danger"><i class="fas fa-trash-alt"></i> DELETAR</button>
             </form>
+
         </div>
     </div>
 @endsection
