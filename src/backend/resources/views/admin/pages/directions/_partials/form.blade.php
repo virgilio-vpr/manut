@@ -1,9 +1,5 @@
 @include('admin.includes.alerts')
 <div class="form-group">
-    <label>Logo da Diretoria:</label>
-    <input type="text" name="logo_direction" class="form-control" placeholder="Logo da Diretoria:" value="{{ $direction->logo_direction ?? old('logo_direction') }}">
-</div>
-<div class="form-group">
     <label>Nome da Diretoria:</label>
     <input type="text" name="name_direction" class="form-control" placeholder="Nome da Diretoria:" value="{{ $direction->name_direction ?? old('name_direction') }}">
 </div>

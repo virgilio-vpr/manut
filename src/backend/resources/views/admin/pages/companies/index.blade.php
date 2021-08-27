@@ -37,7 +37,7 @@
                     @foreach ($companies as $company)
                     <tr>
                         <td>
-                            {{ $company->logo_company }}
+                            <img src="{{ url("storage/{$company->logo_company}") }}" alt="{{  $company->name_company }}" style="max-width: 90px;  max-height: 40px;">
                         </td>
                         <td>
                             {{ $company->name_company }}

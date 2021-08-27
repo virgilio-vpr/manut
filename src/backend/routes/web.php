@@ -14,6 +14,7 @@ Route::prefix('admin')
     Route::delete('companies/{url_company}/directions/{idDirection}', 'DirectionController@destroy')->name('directions.company.destroy');
     Route::get('companies/{url_company}/directions/{idDirection}', 'DirectionController@show')->name('directions.company.show');
     Route::post('companies/{url_company}/directions/{companyId}', 'DirectionController@store')->name('directions.company.store');
+    Route::get('companies/directions', 'DirectionController@choose')->name('directions.company.choose');
     Route::get('companies/{url_company}/directions', 'DirectionController@index')->name('directions.company.index');
 
     // ===================================  Routes Companies ================================================

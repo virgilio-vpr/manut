@@ -24,8 +24,6 @@ class DirectionController extends Controller
             return redirect()->back();
         }
 
-        //$directions = $company->directions();
-
         $directions = $company->directions()->paginate();
 
 
@@ -137,5 +135,16 @@ class DirectionController extends Controller
         $direction->update($request->all());
 
         return redirect()->route('directions.company.index', $company->url_company);
+    }
+
+    public function choose(){
+
+        $companies = $this->company->all();
+        $directions = $this->repository->all();
+
+        return view('admin.pages.directions.choose', [
+            'companies' => $companies,
+            'directions' => $directions,
+        ]);
     }
 }

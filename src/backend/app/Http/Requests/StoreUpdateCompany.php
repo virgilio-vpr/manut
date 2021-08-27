@@ -24,9 +24,22 @@ class StoreUpdateCompany extends FormRequest
     public function rules()
     {
         $url_company = $this->segment(3);
-        return [
-            'name_company' => "required|min:3|max:30|unique:companies,name_company,{$url_company},url_company",
-            'description'  => 'required|min:3|max:255',
-        ];
+
+        if (!$url_company) {
+            $rule = [
+                'name_company' => "required|min:3|max:30|unique:companies,name_company,{$url_company},url_company",
+                'description'  => 'required|min:3|max:255',
+                'logo_company' => 'required|image',
+            ];
+
+        } else {
+            $rule = [
+                'name_company' => "required|min:3|max:30|unique:companies,name_company,{$url_company},url_company",
+                'description'  => 'required|min:3|max:255',
+                'logo_company' => ['nullable', 'image'],
+            ];
+        }
+
+        return $rule;
     }
 }

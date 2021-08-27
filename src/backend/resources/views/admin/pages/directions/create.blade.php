@@ -11,7 +11,14 @@
         <li class="breadcrumb-item active"><a href="{{ route('directions.company.create', $company->url_company) }}">Nova</a></li>
     </ol>
 
-    <h1>Cadastrar Diretoria da Empresa {{ $company->name_company }}</h1>
+
+    <div class="col">
+        <div class="row">
+            <h1>Cadastrar Diretoria da Empresa <strong>{{ $company->name_company }}</strong></h1>
+            </h1>&ensp;&ensp;
+            <a href="{{ route('directions.company.index', $company->url_company) }}" class="btn btn-secondary"><i class="fas fa-undo"></i></a>
+        </div>
+    </div>
 @stop
 
 @section('content')

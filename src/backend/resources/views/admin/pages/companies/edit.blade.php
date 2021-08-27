@@ -17,7 +17,7 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('companies.update', $company->url_company) }}" class="form" method="POST">
+            <form action="{{ route('companies.update', $company->url_company) }}" class="form" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 @include('admin.pages.companies._partials.form')

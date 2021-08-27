@@ -19,6 +19,10 @@
             <ul class="list-group list-group-flush">
 
                 <li class="list-group-item">
+                    <img src="{{ url("storage/{$company->logo_company}") }}" alt="{{ $company->name_company }}" style="max-width: 90px;  max-height: 50px;">
+                </li>
+
+                <li class="list-group-item">
                     <strong>Nome da Empresa: </strong> {{ $company->name_company }}
                 </li>
 
@@ -27,16 +31,12 @@
                 </li>
 
                 <li class="list-group-item">
-                    <strong>Logo da Empresa: </strong> {{ $company->logo_company }}
-                </li>
-
-                <li class="list-group-item">
                     <strong>Descrição: </strong> {{ $company->description }}
                 </li>
 
             </ul>
 
-            <br>
+            @include('admin.includes.alerts')
 
             <form action="{{ route('companies.destroy', $company->url_company) }}" method="POST">
                 @csrf

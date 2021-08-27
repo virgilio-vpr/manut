@@ -45,18 +45,14 @@
             <table class="table table-condensed">
                 <thead>
                     <tr>
-                        <th width="300">logo</th>
                         <th>Diretoria</th>
                         <th>Centro de Custo</th>
-                        <th width="250">Ações</th>
+                        <th width="300">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($directions as $direction)
                     <tr>
-                        <td>
-                            {{ $direction->logo_direction }}
-                        </td>
                         <td>
                             {{ $direction->name_direction }}
                         </td>

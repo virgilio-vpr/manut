@@ -5,15 +5,19 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateCompany;
 use App\Models\Company;
+use App\Models\Direction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class CompanyController extends Controller
 {
-    private $repository;
+    private $repository, $directions;
 
-    public function __construct(Company $company)
+    public function __construct(Company $company, Direction $directionCompany)
     {
         $this->repository = $company;
+        $this->directions = $directionCompany;
     }
 
     public function index()
@@ -32,7 +36,13 @@ class CompanyController extends Controller
 
     public function store(StoreUpdateCompany $request)
     {
-        $this->repository->create($request->all());
+        $data = $request->all();
+
+        if ($request->hasFile('logo_company') && $request->file('logo_company')->isValid()) {
+            $data['logo_company'] = $request->logo_company->store("company/logo_company");
+        }
+
+        $this->repository->create($data);
 
         return redirect()->route('companies.index');
     }
@@ -52,10 +62,26 @@ class CompanyController extends Controller
 
     public function destroy($url_company)
     {
-        $company = $this->repository->where('url_company', $url_company)->first();
+        $company = $this->repository
+                            ->where('url_company', $url_company)
+                            ->first();
+
+        $directions = $this->directions
+                                ->where('company_id', $company->id)
+                                ->first();
 
         if (!$company) {
             return redirect()->back();
+        }
+
+        if ($directions) {
+            return redirect()
+                        ->back()
+                        ->with('error', 'Existem diretorias cadastradas nesta empresa, portando não é possível deletar!');
+        }
+
+        if (Storage::exists($company->logo_company)) {
+            Storage::delete($company->logo_company);
         }
 
         $company->delete();
@@ -89,13 +115,23 @@ class CompanyController extends Controller
 
     public function update(StoreUpdateCompany $request, $url_company)
     {
-        $company = $this->repository->where('url_company', $url_company)->first();
 
-        if (!$company) {
+        if (!$company = $this->repository->where('url_company', $url_company)->first()) {
             return redirect()->back();
         }
 
-        $company->update($request->all());
+        $data = $request->all();;
+
+        if ($request->hasFile('logo_company') && $request->logo_company->isValid()) {
+
+            if (Storage::exists($company->logo_company)) {
+                Storage::delete($company->logo_company);
+            }
+
+            $data['logo_company'] = $request->logo_company->store("company/logo_company");
+        }
+
+        $company->update($data);
 
         return redirect()->route('companies.index');
     }

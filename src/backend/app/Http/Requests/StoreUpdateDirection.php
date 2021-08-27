@@ -29,7 +29,12 @@ class StoreUpdateDirection extends FormRequest
         $id = $this->segment(6);
 
         return [
-            'name_direction' => Rule::unique('directions', 'name_direction')->where('company_id', $companyId)->ignore($id, 'id'),
+            'name_direction' => [
+                'required',
+                'min:3',
+                'max:30',
+                Rule::unique('directions', 'name_direction')->where('company_id', $companyId)->ignore($id, 'id'),
+            ],
             'cost_center' => 'required|numeric',
             'description'  => 'required|min:3|max:255',
         ];

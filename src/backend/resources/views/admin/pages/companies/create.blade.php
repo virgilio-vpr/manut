@@ -22,10 +22,10 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('companies.store') }}" class="form" method="POST">
+            <form action="{{ route('companies.store') }}" class="form" method="POST" enctype="multipart/form-data">
                 @csrf
                 @include('admin.pages.companies._partials.form')
             </form>
         </div>
-    </div>
+    </div>  
 @endsection

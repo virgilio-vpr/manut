@@ -260,8 +260,7 @@ return [
                 [
                     'text'    => 'Diretoria',
                     'icon_color' => 'yellow',
-                    'url'     => '#',
-                    //'route'     => ['directions.company.index', ['url_company' => $company->url_company]],
+                    'route'     => 'directions.company.choose',
                 ],
                 [
                     'text' => 'Gerência',

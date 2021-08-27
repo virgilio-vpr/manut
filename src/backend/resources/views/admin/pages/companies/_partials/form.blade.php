@@ -1,7 +1,7 @@
 @include('admin.includes.alerts')
 <div class="form-group">
     <label>Logo da Empresa:</label>
-    <input type="text" name="logo_company" class="form-control" placeholder="Logo da Empresa:" value="{{ $company->logo_company ?? old('logo_company') }}">
+    <input type="file" name="logo_company" class="form-control">
 </div>
 <div class="form-group">
     <label>Nome da Empresa:</label>
